@@ -36,7 +36,10 @@ export default class App extends React.Component {
             returnKeyType="done"
             autoCorrect={false}
           />
-          <ScrollView>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.toDos}
+          >
             <Todo itemText="1" />
             <Todo itemText="2" />
             <Todo itemText="3" />
@@ -60,7 +63,10 @@ const styles = StyleSheet.create({
     alignItems: "center"
     //justifyContent: 'center',
   },
-
+  scrollView: {
+    marginLeft: 20,
+    marginRight: 20
+  },
   titleText: {
     color: "white",
     fontSize: 30,
