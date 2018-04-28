@@ -21,7 +21,7 @@ export default class ToDo extends Component {
   }
 
   render() {
-    const { itemText, isCompleted } = this.state
+    const { itemText, isCompleted, isEditing } = this.state
     return (
       <View style={styles.container}>
         <View style={styles.contant}>
@@ -42,14 +42,37 @@ export default class ToDo extends Component {
             Item : {this.props.itemText}
           </Text>
         </View>
-        <View style={styles.buttons}>
-          <TouchableOpacity onPress={this._editData}>
-            <Entypo color="blue" size={20} name="edit" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this._saveData}>
-            <Ionicons color="blue" size={20} name="md-close-circle" />
-          </TouchableOpacity>
-        </View>
+
+        {isCompleted ? null : (
+          <View>
+            {isEditing ? (
+              <View style={styles.buttons}>
+                <TouchableOpacity onPress={this._editData}>
+                  <View style={styles.actionContainer}>
+                    <Entypo color="blue" size={30} name="edit" />
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this._deleteData}>
+                  <View style={styles.actionContainer}>
+                    <Ionicons color="red" size={30} name="md-close-circle" />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={styles.buttons}>
+                <TouchableOpacity onPress={this._saveData}>
+                  <View style={styles.actionContainer}>
+                    <Ionicons
+                      color="green"
+                      size={30}
+                      name="ios-checkmark-circle"
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        )}
       </View>
     )
   }
@@ -57,12 +80,20 @@ export default class ToDo extends Component {
   _editData = () => {
     this.setState(prevState => {
       return {
-        isEditing: true
+        isEditing: false
       }
     })
   }
 
-  _saveData = () => {}
+  _deleteData = () => {}
+
+  _saveData = () => {
+    this.setState(prevState => {
+      return {
+        isEditing: true
+      }
+    })
+  }
 
   _toggleComplete = () => {
     this.setState(prevState => {
@@ -85,6 +116,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
+  actionContainer: {
+    marginVertical: 10,
+    marginHorizontal: 10
+  },
   contant: {
     flexDirection: "row",
     alignItems: "center"
@@ -99,7 +134,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 15,
     //backgroundColor: "#0000ff",
-    borderColor: "#0000ff",
+    borderColor: "#cecece",
     borderWidth: 3,
     marginLeft: 20
   },
@@ -123,7 +158,7 @@ const styles = StyleSheet.create({
     color: "#ff0000"
   },
   completedText: {
-    color: "#0000ff",
+    color: "#cecece",
     textDecorationLine: "line-through"
   }
 })
