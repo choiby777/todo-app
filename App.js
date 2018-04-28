@@ -40,9 +40,9 @@ export default class App extends React.Component {
             style={styles.scrollView}
             contentContainerStyle={styles.toDos}
           >
-            <Todo itemText="1" />
-            <Todo itemText="2" />
-            <Todo itemText="3" />
+            <Todo todoValue={"1"} />
+            <Todo todoValue={"2"} />
+            <Todo todoValue={"3"} />
           </ScrollView>
         </View>
       </View>

@@ -13,7 +13,8 @@ const { height, width } = Dimensions.get("window")
 export default class ToDo extends Component {
   state = {
     isEditing: false,
-    isCompleted: false
+    isCompleted: false,
+    todoValue: ""
   }
 
   constructor(props) {
@@ -21,7 +22,8 @@ export default class ToDo extends Component {
   }
 
   render() {
-    const { itemText, isCompleted, isEditing } = this.state
+    const { isCompleted, isEditing } = this.state
+    const { todoValue } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.contant}>
@@ -39,7 +41,7 @@ export default class ToDo extends Component {
               isCompleted ? styles.completedText : styles.unCompletedText
             ]}
           >
-            Item : {this.props.itemText}
+            Item : {this.props.todoValue}
           </Text>
         </View>
 
