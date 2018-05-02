@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } from "react-native"
 
 const { height, width } = Dimensions.get("window")
@@ -17,9 +18,9 @@ export default class ToDo extends Component {
     todoValue: ""
   }
 
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
   render() {
     const { isCompleted, isEditing } = this.state
@@ -35,21 +36,35 @@ export default class ToDo extends Component {
               ]}
             />
           </TouchableOpacity>
-          <Text
-            style={[
-              styles.itemText,
-              isCompleted ? styles.completedText : styles.unCompletedText
-            ]}
-          >
-            Item : {this.props.todoValue}
-          </Text>
+          {isEditing ? (
+            <TextInput
+              style={[
+                styles.textInput,
+                styles.itemText,
+                isCompleted ? styles.completedText : styles.unCompletedText
+              ]}
+              value={todoValue}
+              multiline={true}
+              onChangeText={this._controllInput}
+              returnKeyType={"done"}
+              onBlur={this._endEditing}
+            />
+          ) : (
+            <Text
+              style={[
+                styles.itemText,
+                isCompleted ? styles.completedText : styles.unCompletedText
+              ]}
+            >
+              {todoValue}
+            </Text>
+          )}
         </View>
-
         {isCompleted ? null : (
           <View>
             {isEditing ? (
               <View style={styles.buttons}>
-                <TouchableOpacity onPress={this._editData}>
+                <TouchableOpacity onPress={this._endEditing}>
                   <View style={styles.actionContainer}>
                     <Entypo color="blue" size={30} name="edit" />
                   </View>
@@ -62,7 +77,7 @@ export default class ToDo extends Component {
               </View>
             ) : (
               <View style={styles.buttons}>
-                <TouchableOpacity onPress={this._saveData}>
+                <TouchableOpacity onPress={this._startEditing}>
                   <View style={styles.actionContainer}>
                     <Ionicons
                       color="green"
@@ -79,7 +94,7 @@ export default class ToDo extends Component {
     )
   }
 
-  _editData = () => {
+  _endEditing = () => {
     this.setState(prevState => {
       return {
         isEditing: false
@@ -89,10 +104,12 @@ export default class ToDo extends Component {
 
   _deleteData = () => {}
 
-  _saveData = () => {
+  _startEditing = () => {
+    const { editText } = this.props
     this.setState(prevState => {
       return {
-        isEditing: true
+        isEditing: true,
+        todoValue: editText
       }
     })
   }
@@ -106,6 +123,12 @@ export default class ToDo extends Component {
   }
 
   _toggleUnComplete = () => {}
+
+  _controllInput = text => {
+    this.setState({
+      todoValue: text
+    })
+  }
 }
 
 const styles = StyleSheet.create({
@@ -147,6 +170,10 @@ const styles = StyleSheet.create({
     borderColor: "red",
     borderWidth: 3,
     marginLeft: 20
+  },
+
+  textInput: {
+    color: "#0000ff"
   },
 
   itemText: {

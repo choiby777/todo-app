@@ -9,17 +9,33 @@ import {
   TextInput,
   ScrollView
 } from "react-native"
+import { AppLoading } from "expo"
 import Todo from "./ToDo"
 
 const { height, width } = Dimensions.get("window")
 
 export default class App extends React.Component {
   state = {
-    newTodo: ""
+    newTodo: "",
+    isLoadedTodos: false
+  }
+
+  componentDidMount = () => {
+    this._loadTodos()
+  }
+
+  _loadTodos = () => {
+    this.setState({
+      isLoadedTodos: true
+    })
   }
 
   render() {
-    const { newTodo } = this.state
+    const { newTodo, isLoadedTodos } = this.state
+
+    if (!isLoadedTodos) {
+      return <AppLoading />
+    }
 
     return (
       <View style={styles.container}>
@@ -40,9 +56,9 @@ export default class App extends React.Component {
             style={styles.scrollView}
             contentContainerStyle={styles.toDos}
           >
-            <Todo todoValue={"1"} />
-            <Todo todoValue={"2"} />
-            <Todo todoValue={"3"} />
+            <Todo todoValue={"강의 확인 하기"} />
+            <Todo todoValue={"과제하기"} />
+            <Todo todoValue={"시험 준비 하기"} />
           </ScrollView>
         </View>
       </View>
