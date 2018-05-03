@@ -11,13 +11,15 @@ import {
 } from "react-native";
 import { AppLoading } from "expo";
 import Todo from "./ToDo";
+import uuidv1 from "uuid/v1";
 
 const { height, width } = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
     newTodo: "",
-    isLoadedTodos: false
+    isLoadedTodos: false,
+    toDos: {}
   };
 
   componentDidMount = () => {
@@ -31,7 +33,8 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { newTodo, isLoadedTodos } = this.state;
+    const { newTodo, isLoadedTodos, toDos } = this.state;
+    console.log(toDos);
 
     if (!isLoadedTodos) {
       return <AppLoading />;
@@ -51,7 +54,7 @@ export default class App extends React.Component {
             placeholderTextColor="#999"
             returnKeyType="done"
             autoCorrect={false}
-            onSubmitEditing={this._addTodo}
+            onSubmitEditing={this._addTodo} // 입력완료시 이벤트
           />
           <ScrollView
             style={styles.scrollView}
@@ -73,14 +76,27 @@ export default class App extends React.Component {
   };
 
   _addTodo = () => {
-    this._clearNewTodo();
-  };
-
-  _clearNewTodo = () => {
     const { newTodo } = this.state;
-    if (newTodo != "") {
-      this.setState({
-        newTodo: ""
+    if (newTodo !== "") {
+      this.setState(prevState => {
+        const ID = uuidv1();
+        const newTodoObject = {
+          [ID]: {
+            id: ID,
+            isCompleted: false,
+            text: newTodo,
+            createdAt: Date.now()
+          }
+        };
+        const newState = {
+          ...prevState,
+          newTodo: "",
+          toDos: {
+            ...prevState.toDos,
+            ...newTodoObject
+          }
+        };
+        return { ...newState };
       });
     }
   };
