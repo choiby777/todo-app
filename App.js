@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -8,33 +8,33 @@ import {
   Platform,
   TextInput,
   ScrollView
-} from "react-native"
-import { AppLoading } from "expo"
-import Todo from "./ToDo"
+} from "react-native";
+import { AppLoading } from "expo";
+import Todo from "./ToDo";
 
-const { height, width } = Dimensions.get("window")
+const { height, width } = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
     newTodo: "",
     isLoadedTodos: false
-  }
+  };
 
   componentDidMount = () => {
-    this._loadTodos()
-  }
+    this._loadTodos();
+  };
 
   _loadTodos = () => {
     this.setState({
       isLoadedTodos: true
-    })
-  }
+    });
+  };
 
   render() {
-    const { newTodo, isLoadedTodos } = this.state
+    const { newTodo, isLoadedTodos } = this.state;
 
     if (!isLoadedTodos) {
-      return <AppLoading />
+      return <AppLoading />;
     }
 
     return (
@@ -51,6 +51,7 @@ export default class App extends React.Component {
             placeholderTextColor="#999"
             returnKeyType="done"
             autoCorrect={false}
+            onSubmitEditing={this._addTodo}
           />
           <ScrollView
             style={styles.scrollView}
@@ -62,14 +63,27 @@ export default class App extends React.Component {
           </ScrollView>
         </View>
       </View>
-    )
+    );
   }
 
   _controllNewTodo = text => {
     this.setState({
       newTodo: text
-    })
-  }
+    });
+  };
+
+  _addTodo = () => {
+    this._clearNewTodo();
+  };
+
+  _clearNewTodo = () => {
+    const { newTodo } = this.state;
+    if (newTodo != "") {
+      this.setState({
+        newTodo: ""
+      });
+    }
+  };
 }
 
 const styles = StyleSheet.create({
@@ -120,4 +134,4 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     padding: 25
   }
-})
+});
