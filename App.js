@@ -10,7 +10,7 @@ import {
   ScrollView
 } from "react-native";
 import { AppLoading } from "expo";
-import Todo from "./ToDo";
+import ToDo from "./ToDo";
 import uuidv1 from "uuid/v1";
 
 const { height, width } = Dimensions.get("window");
@@ -35,11 +35,9 @@ export default class App extends React.Component {
   render() {
     const { newTodo, isLoadedTodos, toDos } = this.state;
     console.log(toDos);
-
     if (!isLoadedTodos) {
       return <AppLoading />;
     }
-
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -60,9 +58,10 @@ export default class App extends React.Component {
             style={styles.scrollView}
             contentContainerStyle={styles.toDos}
           >
-            <Todo todoValue={"강의 확인 하기"} />
+            {/* <Todo todoValue={"강의 확인 하기"} />
             <Todo todoValue={"과제하기"} />
-            <Todo todoValue={"시험 준비 하기"} />
+            <Todo todoValue={"시험 준비 하기"} /> */}
+            {Object.values(toDos).map(toDo => <ToDo key={toDo.id} {...toDo} />)}
           </ScrollView>
         </View>
       </View>

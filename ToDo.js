@@ -1,5 +1,5 @@
-import React, { Component } from "react"
-import { Ionicons, Entypo, MaterialIcons } from "@expo/vector-icons"
+import React, { Component } from "react";
+import { Ionicons, Entypo, MaterialIcons } from "@expo/vector-icons";
 import {
   View,
   Text,
@@ -7,24 +7,24 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput
-} from "react-native"
+} from "react-native";
 
-const { height, width } = Dimensions.get("window")
+const { height, width } = Dimensions.get("window");
 
 export default class ToDo extends Component {
   state = {
     isEditing: false,
     isCompleted: false,
     todoValue: ""
-  }
+  };
 
   // constructor(props) {
   //   super(props)
   // }
 
   render() {
-    const { isCompleted, isEditing } = this.state
-    const { todoValue } = this.props
+    const { isCompleted, isEditing } = this.state;
+    const { todoValue } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.contant}>
@@ -56,7 +56,8 @@ export default class ToDo extends Component {
                 isCompleted ? styles.completedText : styles.unCompletedText
               ]}
             >
-              {todoValue}
+              {/* {todoValue} */}
+              {this.props.text}
             </Text>
           )}
         </View>
@@ -91,44 +92,44 @@ export default class ToDo extends Component {
           </View>
         )}
       </View>
-    )
+    );
   }
 
   _endEditing = () => {
     this.setState(prevState => {
       return {
         isEditing: false
-      }
-    })
-  }
+      };
+    });
+  };
 
-  _deleteData = () => {}
+  _deleteData = () => {};
 
   _startEditing = () => {
-    const { editText } = this.props
+    const { editText } = this.props;
     this.setState(prevState => {
       return {
         isEditing: true,
         todoValue: editText
-      }
-    })
-  }
+      };
+    });
+  };
 
   _toggleComplete = () => {
     this.setState(prevState => {
       return {
         isCompleted: !prevState.isCompleted
-      }
-    })
-  }
+      };
+    });
+  };
 
-  _toggleUnComplete = () => {}
+  _toggleUnComplete = () => {};
 
   _controllInput = text => {
     this.setState({
       todoValue: text
-    })
-  }
+    });
+  };
 }
 
 const styles = StyleSheet.create({
@@ -190,4 +191,4 @@ const styles = StyleSheet.create({
     color: "#cecece",
     textDecorationLine: "line-through"
   }
-})
+});
