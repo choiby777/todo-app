@@ -8,23 +8,30 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
-
+import { PropTypes } from "prop-types";
 const { height, width } = Dimensions.get("window");
 
 export default class ToDo extends Component {
-  state = {
-    isEditing: false,
-    isCompleted: false,
-    todoValue: ""
-  };
+  static propTypes = {
+    text : PropTypes.string.isRequired,
+    isCompleted : PropTypes.bool.isRequired,
+    deleteTodo : PropTypes.func.isRequired,
+    id : PropTypes.string.isRequired,
+  }
 
-  // constructor(props) {
-  //   super(props)
-  // }
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isEditing: false,
+      isCompleted: false,
+      todoValue: props.text        
+    }
+  }
 
   render() {
     const { isCompleted, isEditing } = this.state;
-    const { todoValue } = this.props;
+    const { text , id, deleteTodo } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.contant}>
@@ -43,7 +50,7 @@ export default class ToDo extends Component {
                 styles.itemText,
                 isCompleted ? styles.completedText : styles.unCompletedText
               ]}
-              value={todoValue}
+              value={text}
               multiline={true}
               onChangeText={this._controllInput}
               returnKeyType={"done"}
@@ -70,7 +77,7 @@ export default class ToDo extends Component {
                     <Entypo color="blue" size={30} name="edit" />
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={this._deleteData}>
+                <TouchableOpacity onPressOut={() => deleteTodo(id)}>
                   <View style={styles.actionContainer}>
                     <Ionicons color="red" size={30} name="md-close-circle" />
                   </View>
@@ -102,8 +109,6 @@ export default class ToDo extends Component {
       };
     });
   };
-
-  _deleteData = () => {};
 
   _startEditing = () => {
     const { editText } = this.props;
