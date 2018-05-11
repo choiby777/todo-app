@@ -61,7 +61,9 @@ export default class App extends React.Component {
             {/* <Todo todoValue={"강의 확인 하기"} />
             <Todo todoValue={"과제하기"} />
             <Todo todoValue={"시험 준비 하기"} /> */}
-            {Object.values(toDos).map(toDo => <ToDo key={toDo.id} {...toDo} deleteTodo = {this._deleteTodo}/>)}
+            {Object.values(toDos).map(toDo => (
+              <ToDo key={toDo.id} {...toDo} deleteTodo={this._deleteTodo} />
+            ))}
           </ScrollView>
         </View>
       </View>
@@ -74,18 +76,18 @@ export default class App extends React.Component {
     });
   };
 
-  _deleteTodo = (id) => {
-    this.setState(prevState =>{
+  _deleteTodo = id => {
+    this.setState(prevState => {
       const toDos = prevState.toDos;
       delete toDos[id];
       const newState = {
         ...prevState,
         ...toDos
       };
-      
-      return { ...newState}
+
+      return { ...newState };
     });
-  }
+  };
 
   _addTodo = () => {
     const { newTodo } = this.state;

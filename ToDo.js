@@ -13,25 +13,25 @@ const { height, width } = Dimensions.get("window");
 
 export default class ToDo extends Component {
   static propTypes = {
-    text : PropTypes.string.isRequired,
-    isCompleted : PropTypes.bool.isRequired,
-    deleteTodo : PropTypes.func.isRequired,
-    id : PropTypes.string.isRequired,
-  }
+    text: PropTypes.string.isRequired,
+    isCompleted: PropTypes.bool.isRequired,
+    deleteTodo: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       isEditing: false,
       isCompleted: false,
-      todoValue: props.text        
-    }
+      todoValue: props.text
+    };
   }
 
   render() {
     const { isCompleted, isEditing } = this.state;
-    const { text , id, deleteTodo } = this.props;
+    const { text, id, deleteTodo } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.contant}>
